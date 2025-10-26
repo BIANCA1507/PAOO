@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/proiect.dir/src/main.cpp.o -o proiect  liblib.a
