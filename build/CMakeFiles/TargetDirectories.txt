@@ -1,4 +1,0 @@
-/home/nianca/AN4/paoo/proiect/build/CMakeFiles/lib.dir
-/home/nianca/AN4/paoo/proiect/build/CMakeFiles/proiect.dir
-/home/nianca/AN4/paoo/proiect/build/CMakeFiles/edit_cache.dir
-/home/nianca/AN4/paoo/proiect/build/CMakeFiles/rebuild_cache.dir
