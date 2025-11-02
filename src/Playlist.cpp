@@ -1,6 +1,7 @@
 #include "Playlist.hpp"
 #include <iostream>
 #include <cstring>
+#include <iomanip>   
 
 using namespace std;
 
@@ -55,18 +56,20 @@ Playlist::Playlist(const Playlist& other)
 Playlist::Playlist(Playlist&& other) noexcept 
     : name(other.name),
       songs(other.songs),
-      capacity(other.capacity), 
+      capacity(other.capacity),
       size(other.size)
 {
-    cout << "\nPlaylist Move Constructor: Moving " 
+    cout << "\n[Move Constructor] Moving playlist: " 
          << (other.name ? other.name : "null") << endl;
-    cout << "Transferring " << size << " songs (no copying)" << endl;
-    
+    cout << "Transferring " << size << " songs (no deep copy)" << endl;
+
+    // Invalidate source
     other.name = nullptr;
     other.songs = nullptr;
     other.capacity = 0;
     other.size = 0;
 }
+
 
 Playlist::~Playlist() {
     cout << "\nPlaylist Destructor: Destroying " 
@@ -108,24 +111,28 @@ void Playlist::removeSong(int index) {
 
 // Afiseaza playlist-ul
 void Playlist::displayPlaylist() const {
-    cout << "Playlist: " << name << endl;
-    
-    if (size == 0) {
-        cout << "(Empty playlist)" << endl;
-    } else {
-        for (int i = 0; i < size; i++) {
-            cout << (i + 1) << ". ";
-            songs[i]->display();
-        }
+    if (songs == nullptr || size == 0) {
+        cout << "  (Empty playlist)" << endl;
+        return;
     }
-    
-    int total = getTotalDuration();
-    int minutes = total / 60;
-    int seconds = total % 60;
-    
-    cout << "Total: " << size << " songs, " 
-         << minutes << ":" << (seconds < 10 ? "0" : "") << seconds << endl;
+
+    cout << "Playlist: " << (name ? name : "(unnamed)") << "\n\n";
+    for (int i = 0; i < size; ++i) {
+        cout << i + 1 << ".  ";
+        songs[i]->display();
+    }
+
+    int totalDuration = 0;
+    for (int i = 0; i < size; ++i) {
+        totalDuration += songs[i]->getDuration();
+    }
+
+    int minutes = totalDuration / 60;
+    int seconds = totalDuration % 60;
+    cout << "Total: " << size << " songs, "
+         << minutes << ":" << setw(2) << setfill('0') << seconds << "\n";
 }
+
 
 // Calculeaza durata totala
 int Playlist::getTotalDuration() const {

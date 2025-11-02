@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// Demonstrates why we need COPY CONSTRUCTOR
+// Demonstrates COPY CONSTRUCTOR
 void demonstrateCopyConstructor() {
     cout << "\n--- Copy Constructor Demo ---\n";
 
@@ -25,27 +25,31 @@ void demonstrateCopyConstructor() {
 }
 
 
-// Creates a temporary playlist to demonstrate move semantics
-Playlist createBigPlaylist(const char* name) {
-    Playlist temp(name);
-    temp.addSong(Song("Espresso", "Sabrina Carpenter", 183));
-    temp.addSong(Song("Go", "Cortis", 167));
-    temp.addSong(Song("Sports Car", "Tate McRae", 201));
-    return temp;  // triggers move constructor
-}
-
-// Demonstrates MOVE CONSTRUCTOR (clean output version)
+// Demonstrates MOVE CONSTRUCTOR
 void demonstrateMoveConstructor() {
     cout << "\n--- Move Constructor Demo ---\n";
 
-    // Create playlist using move semantics
-    Playlist myPlaylist = createBigPlaylist("My Playlist");
+    Playlist source("Summer Vibes\n");
+    source.addSong(Song("Espresso", "Sabrina Carpenter", 183));
+    source.addSong(Song("Go", "Cortis", 167));
+    source.addSong(Song("Sports Car", "Tate McRae", 201));
 
-    cout << "\nPlaylist created using move constructor:\n";
-    myPlaylist.displayPlaylist();
+    cout << "\nOriginal playlist before transfer:\n";
+    source.displayPlaylist();
 
-    cout << "\n(✔) Move constructor used — ownership transferred efficiently.\n";
+    cout << "\nTransferring ownership to another playlist...\n";
+
+    Playlist destination = std::move(source);
+
+    cout << "\nDestination playlist after move:\n";
+    destination.displayPlaylist();
+
+    cout << "\nSource playlist after move (should be empty or null):\n";
+    source.displayPlaylist();
+
+    cout << "\nMove constructor was called — ownership transferred safely.\n";
 }
+
 
 
 
